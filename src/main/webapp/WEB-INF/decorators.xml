@@ -1,0 +1,9 @@
+<decorators defaultdir="/WEB-INF/jsp">
+
+    <decorator name="main" page="index.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+    <decorator name="tabs" page="pages/tabs.jsp"/>
+
+    <decorator name="findPerson" page="forms/findPerson.jsp"/>
+</decorators>
