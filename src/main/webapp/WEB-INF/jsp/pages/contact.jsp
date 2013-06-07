@@ -16,7 +16,7 @@
     <c:forEach items="${persons}" var="x">
         <tr>
             <td><c:out value="${x.firstName} ${x.lastName}"/></td>
-            <td><input type="checkbox" id="${x.personId}" onclick="activateVisited();"/></td>
+            <td><input type="checkbox" id="${x.personId}_tab"/></td>
         </tr>
     </c:forEach>
     </tbody>
@@ -29,13 +29,15 @@
 <script type="text/javascript">
     $(document).ready(function () {
                 $('#myTable').tablesorter();
+
+                $("input[type='checkbox']").each(function () {
+                    $(this).change(function (e) {
+                        $(this).after('<img src="/Test/resources/images/ajax-loader.gif" />');
+                        $(this).attr({"disabled": true});
+                        $(this).attr('readonly', 'readonly');
+                    })
+                })
+
             }
     );
-
-    function activateVisited() {
-        $("#50").after('<img src="/Test/resources/images/ajax-loader.gif" />')
-        $("#50").attr({"disabled": true});
-        $("#50").attr('readonly', 'readonly');
-        $("#50").after().remove();
-    }
 </script>
