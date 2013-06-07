@@ -47,7 +47,9 @@ public class PersonDAO {
     }
 
     public List<Person> getAllPeople(){
-        return jdbcTemplate.query("SELECT * FROM PERSONS p left join addresses a on p.person_id = a.person_id", personRowMapper);
+        return jdbcTemplate.query("select max(c.contact_datetime) as contact_datetime,p.person_id, p.first_name, p.last_name, p.middle_name,p.date_of_birth,p.date_membership_began, a.street_1,a.street_2,"+
+                " a.city, a.state, a.zip, p.sex"+
+                " FROM PERSONS p left join addresses a on p.person_id = a.person_id left join contacts c on p.person_id = c.person_id group by p.person_id", personRowMapper);
     }
 
     public void addPerson(Person person){
@@ -73,8 +75,14 @@ public class PersonDAO {
     }
 
     public Person getPersonById(int personId){
-        String query = "select p.person_id, p.first_name, p.last_name, p.middle_name,p.date_of_birth,p.date_membership_began, a.street_1,a.street_2, " +
-                "a.city, a.state, a.zip, p.sex from persons p left join addresses a on p.person_id = a.person_id where p.person_id = " + personId + ";";
+        String query = "select max(c.contact_datetime) as contact_datetime,p.person_id, p.first_name, p.last_name, p.middle_name,p.date_of_birth,p.date_membership_began, a.street_1,a.street_2, " +
+                "a.city, a.state, a.zip, p.sex from persons p left join addresses a on p.person_id = a.person_id " +
+                "left join contacts c on p.person_id = c.person_id where p.person_id = " + personId + ";";
         return (Person) jdbcTemplate.queryForObject(query, personRowMapper);
+    }
+
+    public void addContactDateForPerson(int personId){
+        String query = "INSERT INTO CONTACTS(PERSON_ID,CONTACT_DATETIME,ACTIVE) VALUES("+personId+",now(),1);";
+        jdbcTemplate.execute(query);
     }
 }

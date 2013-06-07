@@ -28,6 +28,7 @@ public class PersonRowMapper implements RowMapper {
         person.setCity(resultSet.getString("CITY"));
         person.setState(resultSet.getString("STATE"));
         person.setZipCode(resultSet.getString("ZIP"));
+        person.setContactDateTime(resultSet.getTimestamp("CONTACT_DATETIME"));
         return person;
     }
 }

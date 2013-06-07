@@ -10,13 +10,15 @@
     <tr>
         <td>Name</td>
         <td>Visited</td>
+        <td>Last Visit</td>
     </tr>
     </thead>
     <tbody>
     <c:forEach items="${persons}" var="x">
         <tr>
             <td><c:out value="${x.firstName} ${x.lastName}"/></td>
-            <td><input type="checkbox" id="${x.personId}_tab"/></td>
+            <td><input type="checkbox" id="${x.personId}_tab" name="${x.personId}"/></td>
+            <td><c:out value="${x.contactDateTime}"/></td>
         </tr>
     </c:forEach>
     </tbody>
@@ -32,7 +34,9 @@
 
                 $("input[type='checkbox']").each(function () {
                     $(this).change(function (e) {
-                        $(this).after('<img src="/Test/resources/images/ajax-loader.gif" />');
+                        //$(this).after('<img src="/Test/resources/images/ajax-loader.gif" />');
+                        updateContactById($(this)['context']['name']);
+                        $(this).next().append("ha");
                         $(this).attr({"disabled": true});
                         $(this).attr('readonly', 'readonly');
                     })
@@ -40,4 +44,14 @@
 
             }
     );
+    function updateContactById(personId) {
+        $.ajax({
+            type: "GET",
+            url: "/Test/beech/contacts/updateContact",
+            data: {id: personId},
+            success: function (msg) {
+
+            }
+        });
+    }
 </script>

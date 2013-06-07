@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,12 +18,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(value = "/contacts")
 public class ContactController {
-                        @Autowired
+    @Autowired
     PersonDAO personDAO;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String defaultPage(ModelMap model) {
-        System.out.println("contact context");
-        model.put("persons",personDAO.getAllPeople());
+        model.put("persons", personDAO.getAllPeople());
         return "/pages/contact";
+    }
+
+    @RequestMapping(value = "/updateContact", method = RequestMethod.GET, params = {"id"})
+    public @ResponseBody String updateContact(@RequestParam(value = "id") int personId, ModelMap model) {
+        System.out.println("here we are");
+        try {
+            personDAO.addContactDateForPerson(personId);
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+        return "success";
     }
 }

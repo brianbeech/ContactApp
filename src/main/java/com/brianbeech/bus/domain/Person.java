@@ -2,6 +2,8 @@ package com.brianbeech.bus.domain;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -26,6 +28,21 @@ public class Person implements Serializable {
     private String city;
     private String state;
     private String zipCode;
+    private String contactDateTime;
+
+    public String getContactDateTime() {
+
+        return contactDateTime.toString();
+    }
+
+    public void setContactDateTime(Timestamp contactDateTime) {
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String outDate = "";
+        if(contactDateTime != null){
+            outDate = sdf.format(contactDateTime);
+        }
+        this.contactDateTime = outDate;
+    }
 
     public Date getDob() {
         return dob;
