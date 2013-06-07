@@ -34,23 +34,21 @@
 
                 $("input[type='checkbox']").each(function () {
                     $(this).change(function (e) {
-                        //$(this).after('<img src="/Test/resources/images/ajax-loader.gif" />');
-                        updateContactById($(this)['context']['name']);
-                        $(this).next().append("ha");
-                        $(this).attr({"disabled": true});
-                        $(this).attr('readonly', 'readonly');
+                        updateContactById($(this)['context']['name'],$(this).closest("td").next());
+
                     })
                 })
 
             }
     );
-    function updateContactById(personId) {
+    function updateContactById(personId,nextCell) {
+        nextCell.html('<img src="/Test/resources/images/ajax-loader.gif" />');
         $.ajax({
             type: "GET",
             url: "/Test/beech/contacts/updateContact",
             data: {id: personId},
             success: function (msg) {
-
+                nextCell.text(msg);
             }
         });
     }

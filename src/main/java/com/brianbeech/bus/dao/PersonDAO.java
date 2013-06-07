@@ -85,4 +85,9 @@ public class PersonDAO {
         String query = "INSERT INTO CONTACTS(PERSON_ID,CONTACT_DATETIME,ACTIVE) VALUES("+personId+",now(),1);";
         jdbcTemplate.execute(query);
     }
+
+    public String getLatestContactDateForPerson(int personId){
+        String query = "SELECT MAX(CONTACT_DATETIME) AS CONTACT_DATETIME FROM CONTACTS WHERE PERSON_ID = " + personId;
+        return jdbcTemplate.queryForObject(query,String.class);
+    }
 }

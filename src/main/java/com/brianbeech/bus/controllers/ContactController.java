@@ -29,12 +29,13 @@ public class ContactController {
 
     @RequestMapping(value = "/updateContact", method = RequestMethod.GET, params = {"id"})
     public @ResponseBody String updateContact(@RequestParam(value = "id") int personId, ModelMap model) {
-        System.out.println("here we are");
+        String ret = "";
         try {
             personDAO.addContactDateForPerson(personId);
+            ret = personDAO.getLatestContactDateForPerson(personId);
         } catch (Exception e) {
-            return "Error: " + e.getMessage();
+            ret = "Error: " + e.getMessage();
         }
-        return "success";
+        return ret;
     }
 }
